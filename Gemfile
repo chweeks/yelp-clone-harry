@@ -4,6 +4,7 @@ gem 'haml', '~> 4.0.7'
 gem 'shoulda', '~> 3.5.0'
 gem 'devise', '~> 3.5.2'
 gem 'omniauth-facebook'
+gem 'factory_girl_rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
