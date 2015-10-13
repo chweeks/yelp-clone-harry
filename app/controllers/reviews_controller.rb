@@ -1,12 +1,12 @@
 class ReviewsController < ApplicationController
 
   def new
-    @restaurant = Restaurant.find(params[:restaurant_id])
+    find_restaurant
     @review = Review.new
   end
 
   def create
-    @restaurant = Restaurant.find(params[:restaurant_id])
+    find_restaurant
     @restaurant.reviews.create(review_params)
     redirect_to restaurants_path
   end
@@ -15,5 +15,8 @@ class ReviewsController < ApplicationController
     params.require(:review).permit(:thoughts, :rating)
   end
 
+  def find_restaurant
+    @restaurant = Restaurant.find(params[:restaurant_id])
+  end
 
 end

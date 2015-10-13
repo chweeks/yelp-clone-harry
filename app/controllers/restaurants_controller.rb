@@ -18,26 +18,29 @@ class RestaurantsController < ApplicationController
   end
 
   def show
-    @restaurant = Restaurant.find(params[:id])
+    find_restaurant
   end
 
   def edit
-    @restaurant = Restaurant.find(params[:id])
+    find_restaurant
   end
 
   def update
-    @restaurant = Restaurant.find(params[:id])
+    find_restaurant
     @restaurant.update(restaurant_params)
     redirect_to '/restaurants'
   end
 
   def destroy
-    @restaurant = Restaurant.find(params[:id])
+    find_restaurant
     @restaurant.destroy
     flash[:notice] = 'Restaurant deleted successfully'
     redirect_to '/restaurants'
   end
 
+  def find_restaurant
+    @restaurant = Restaurant.find(params[:id])
+  end
 
 
   def restaurant_params
