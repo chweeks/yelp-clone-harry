@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 feature 'restaurants' do
+
+  before do
+    User.create(email: 'test@test.com', password: 12345678)
+    visit '/users/sign_in'
+    fill_in 'user_email', with: 'test@test.com'
+    fill_in 'user_password', with: '12345678'
+    click_button 'Log in'
+  end
+
   context 'no restaurants have been added' do
     scenario 'should display a prompt to add a restaurant' do
       visit '/restaurants'
@@ -31,15 +40,20 @@ feature 'restaurants' do
       expect(current_path).to eq '/restaurants'
     end
 
-    context 'an invalid restaurant' do
-      it 'does not let you submit a name that is too short' do
-        visit '/restaurants'
-        click_link 'Add a restaurant'
-        fill_in 'Name', with: 'kf'
-        click_button 'Create Restaurant'
-        expect(page).not_to have_css 'h2', text: 'kf'
-        expect(page).to have_content 'error'
-      end
+    scenario 'can only create when signed in' do
+      click_link 'Sign out'
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      expect(current_path).to eq '/users/sign_in'
+    end
+
+    scenario 'does not let you submit a name that is too short' do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'kf'
+      click_button 'Create Restaurant'
+      expect(page).not_to have_css 'h2', text: 'kf'
+      expect(page).to have_content 'error'
     end
   end
 
@@ -71,7 +85,7 @@ feature 'restaurants' do
 
   context 'deleting restaurants' do
 
-    before {Restaurant.create name: 'KFC'}
+    before { Restaurant.create name: 'KFC' }
 
     scenario 'removes a restaurant when a user clicks a delete link' do
       visit '/restaurants'
