@@ -1,5 +1,7 @@
 class ReviewsController < ApplicationController
 
+  before_action :authenticate_user!, :except => [:index, :show]
+
   def new
     find_restaurant
     @review = Review.new
@@ -13,6 +15,13 @@ class ReviewsController < ApplicationController
     else
       redirect_to restaurants_path, alert: 'You have already reviewed this restaurant'
     end
+  end
+
+  def destroy
+    review = Review.find(6)
+    review.destroy
+    flash[:notice] = 'Review deleted successfully'
+    redirect_to '/restaurants'
   end
 
   def review_params

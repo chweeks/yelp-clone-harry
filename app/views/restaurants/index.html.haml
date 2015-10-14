@@ -16,6 +16,9 @@
             = review.thoughts
             %strong= review.rating
             \/5
+            - if review.user == nil
+              = link_to "Delete review", review, method: :delete
+
     - else
       %p No reviews
 
