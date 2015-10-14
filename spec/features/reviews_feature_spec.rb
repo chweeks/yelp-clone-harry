@@ -32,7 +32,7 @@ feature 'reviewing' do
      click_button 'Leave Review'
 
      expect(current_path).to eq '/restaurants'
-     expect(page).not_to have_content('awful')
+     expect(page).to have_content('You have already reviewed this restaurant')
   end
 
   scenario 'deletes review when restaurant is deleted' do

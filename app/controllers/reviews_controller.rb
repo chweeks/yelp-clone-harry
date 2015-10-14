@@ -7,8 +7,12 @@ class ReviewsController < ApplicationController
 
   def create
     find_restaurant
-    @restaurant.reviews.create(review_params)
-    redirect_to restaurants_path
+    review = @restaurant.reviews.create(review_params)
+    if review.save
+      redirect_to restaurants_path
+    else
+      redirect_to restaurants_path, alert: 'You have already reviewed this restaurant'
+    end
   end
 
   def review_params
